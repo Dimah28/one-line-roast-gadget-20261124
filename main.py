@@ -50,6 +50,10 @@ def main() -> None:
     # Write exactly the roast: no trailing newline, the judge reads
     # exactly the bytes in the file.
     output_path.write_text(ROAST, encoding="utf-8")
+    # Read back and verify: a silent partial write must never ship an
+    # entry that differs from the validated roast.
+    if output_path.read_text(encoding="utf-8") != ROAST:
+        raise SystemExit("entry.txt does not match the validated roast")
 
 
 if __name__ == "__main__":
